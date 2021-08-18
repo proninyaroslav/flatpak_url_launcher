@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Launch URL',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('DBus Demo'),
+          title: Text('Launch URL'),
         ),
         body: _Body(),
       ),
@@ -31,7 +31,7 @@ class _Body extends StatelessWidget {
     return Center(
       child: ElevatedButton(
         onPressed: () async {
-          final url = 'https://google.com';
+          const url = 'https://google.com';
           if (await canLaunch(url)) {
             launch(url);
           } else {
