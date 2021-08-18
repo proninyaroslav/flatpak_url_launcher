@@ -1,0 +1,41 @@
+app-id: org.test.flutter_application_1
+runtime: org.freedesktop.Platform
+runtime-version: '20.08'
+sdk: org.freedesktop.Sdk
+command: flutter_application_1
+separate-locales: false
+finish-args:
+  # Required due to being a GUI application
+  - --socket=fallback-x11
+  # Required to make sure x11 performance is achived on all platforms
+  # At least that's what the legends tell. it might be worth experimenting
+  # with dropping this permission.
+  - --share=ipc
+  # Required for experimental wayland support
+  - --socket=wayland
+  # Required to provide notification functionality
+  - --socket=pulseaudio
+  - --device=all
+cleanup:
+  - /include
+  - /lib/cmake
+  - /lib/pkgconfig
+  - /lib/*.a
+modules:
+  - name: flutter_application_1
+    buildsystem: simple
+    only-arches:
+      - x86_64
+    build-commands:
+      - mkdir -p /app
+      - cp -r flutter_application_1 /app/flutter_application_1
+      - chmod +x /app/flutter_application_1/flutter_application_1
+      - mkdir -p /app/bin /app/lib
+      - ln -s /app/flutter_application_1/flutter_application_1 /app/bin/flutter_application_1
+      - install -Dm644 org.test.flutter_application_1.desktop /app/share/applications/org.test.flutter_application_1.desktop
+    sources:
+      - type: dir
+        path: ../build/linux/x64/debug/bundle
+        dest: flutter_application_1
+      - type: file
+        path: org.test.flutter_application_1.desktop
